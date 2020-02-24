@@ -1,0 +1,12 @@
+{
+    "name": "sunsetboy/weather-forecast",
+    "type": "project",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Michael",
+            "email": "misha.sunsetboy@gmail.com"
+        }
+    ],
+    "require": {}
+}
