@@ -8,9 +8,13 @@ Composer
 
 ## Installation
 Clone repository\
-Run ```composer install```\
+Run ```composer install```
 
 ## Usage
 
 ## Running tests
-Run ```vendor/bin/phpunit tests```
+Without test coverage\
+```vendor/bin/phpunit tests```
+
+With coverage
+```vendor/bin/phpunit tests --coverage-html tests/output/coverage```
