@@ -1,9 +1,9 @@
 <?php
 
 
-namespace Strategies;
+namespace Tests\Unit\Strategies;
 
-use TestCase;
+use Tests\TestCase;
 
 class Fahrenheit2KelvinStrategyTest extends TestCase
 {

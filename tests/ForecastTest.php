@@ -1,5 +1,8 @@
 <?php
 
+namespace Tests;
+
+use DateTime;
 use Laravel\Lumen\Testing\DatabaseMigrations;
 use Laravel\Lumen\Testing\DatabaseTransactions;
 
