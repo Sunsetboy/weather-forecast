@@ -1,6 +1,7 @@
 # Weather forecast API
 
 ![](https://travis-ci.org/Sunsetboy/weather-forecast.svg?branch=master)
+[![Maintainability](https://api.codeclimate.com/v1/badges/ca33fdcf637716975db7/maintainability)](https://codeclimate.com/github/Sunsetboy/weather-forecast/maintainability)
 
 ## Requirements
 PHP 7.2+\
