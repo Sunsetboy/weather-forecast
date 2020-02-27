@@ -13,7 +13,7 @@ class Celsius2KelvinStrategy implements TempScaleConversionStrategyInterface
      */
     public function convert(float $fromValue): float
     {
-        return round($fromValue + 273, 2);
+        return round($fromValue + 273.15, 2);
     }
 
     /**
@@ -23,6 +23,6 @@ class Celsius2KelvinStrategy implements TempScaleConversionStrategyInterface
      */
     public function invert(float $fromValue): float
     {
-        return round($fromValue - 273, 2);
+        return round($fromValue - 273.15, 2);
     }
 }

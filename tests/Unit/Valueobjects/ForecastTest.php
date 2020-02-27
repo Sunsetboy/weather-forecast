@@ -16,15 +16,15 @@ class ForecastTest extends TestCase
     public function test_constructor_and_getters()
     {
         $now = new DateTime();
-        $forecastDatetime = (new DateTime())->setTime(14, 0, 0);
         $town = 'Rotterdam';
-        $temperature = Temperature::createFromScale(new TempScaleEnum('celsius'), 20);
+        $temperatures = [
+            '2020-03-01 14:00:00' => Temperature::createFromScale(new TempScaleEnum('celsius'), 20),
+        ];
 
-        $forecast = new Forecast($temperature, $forecastDatetime, $town);
+        $forecast = new Forecast($temperatures, $town);
 
-        $this->assertEquals($forecastDatetime, $forecast->getDatetime());
         $this->assertEquals($town, $forecast->getTown());
-        $this->assertEquals($temperature, $forecast->getTemperature());
+        $this->assertEquals($temperatures, $forecast->getTemperatures());
         $this->assertEquals($now->format('Y-m-d H:i:s'), $forecast->getCreateTs()->format('Y-m-d H:i:s'));
     }
 }

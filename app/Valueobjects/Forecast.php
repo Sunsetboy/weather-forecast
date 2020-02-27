@@ -5,15 +5,15 @@ namespace App\Valueobjects;
 use DateTime;
 
 /**
- * A representation of temperature at certain moment in a certain town
+ * Forecast for a day and a town
  */
 class Forecast
 {
-    /** @var Temperature */
-    private $temperature;
-
-    /** @var DateTime */
-    private $datetime;
+    /**
+     * @var Temperature[]
+     * Associative array with keys in format 'Y-m-d H:i:s'
+     */
+    private $temperatures;
 
     /** @var string */
     private $town;
@@ -21,28 +21,19 @@ class Forecast
     /** @var DateTime */
     private $createTs;
 
-    public function __construct(Temperature $temperature, DateTime $datetime, string $town)
+    public function __construct(array $temperatures, string $town)
     {
-        $this->temperature = $temperature;
-        $this->datetime = $datetime;
+        $this->temperatures = $temperatures;
         $this->town = $town;
         $this->createTs = new DateTime();
     }
 
     /**
-     * @return Temperature
+     * @return Temperature[]
      */
-    public function getTemperature(): Temperature
+    public function getTemperatures(): array
     {
-        return $this->temperature;
-    }
-
-    /**
-     * @return DateTime
-     */
-    public function getDatetime(): DateTime
-    {
-        return $this->datetime;
+        return $this->temperatures;
     }
 
     /**
