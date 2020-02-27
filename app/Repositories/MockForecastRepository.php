@@ -29,6 +29,7 @@ class MockForecastRepository implements ForecastProviderInterface
             $temperature = Temperature::createFromScale(TempScaleEnum::CELSIUS(), $randomTempValueInCelsius);
             $datetimeAsString = $currentDateTime->format('Y-m-d H:i:s');
             $temperatures[$datetimeAsString] = $temperature;
+            $currentDateTime->modify('+1 hour');
         }
 
         return new Forecast($temperatures, $town);
