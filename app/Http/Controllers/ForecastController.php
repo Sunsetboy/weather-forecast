@@ -10,20 +10,27 @@ use Illuminate\Http\Request;
 
 class ForecastController extends Controller
 {
+    /** @var ForecastService */
+    private $forecastService;
+
+    public function __construct(ForecastService $forecastService)
+    {
+        $this->forecastService = $forecastService;
+    }
+
     /**
      * @param Request $request
-     * @param ForecastService $forecastService
-     * @param $townName
-     * @param $date
+     * @param string $townName
+     * @param string $date
      * @return JsonResponse
      * @throws \Exception
      */
-    public function get(Request $request, ForecastService $forecastService, $townName, $date)
+    public function get(Request $request, $townName, $date = null)
     {
         $scale = $request->get('scale', TempScaleEnum::CELSIUS());
         $date = $date ? (new DateTime($date)) : (new DateTime());
 
-        $forecast = $forecastService->getForecast($townName, $date, $scale);
+        $forecast = $this->forecastService->getForecast($townName, $date, $scale);
 
         return $forecast;
     }

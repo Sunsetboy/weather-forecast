@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Repositories\BBCForecastProvider;
 use App\Repositories\IAmSterdamForecastProvider;
+use App\Services\ForecastService;
 use Illuminate\Support\ServiceProvider;
 
 class ForecastServiceProvider extends ServiceProvider
@@ -23,6 +24,12 @@ class ForecastServiceProvider extends ServiceProvider
                 config('forecast_providers.providers.bbc.api_key')
             );
         });
+    }
 
+    public function boot()
+    {
+        $this->app->bind(ForecastService::class, function ($app) {
+            return new ForecastService();
+        });
     }
 }

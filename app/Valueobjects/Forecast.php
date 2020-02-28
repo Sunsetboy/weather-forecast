@@ -51,4 +51,9 @@ class Forecast
     {
         return $this->createTs;
     }
+
+    public function __toString():string
+    {
+        return 'my awesome forecast';
+    }
 }
