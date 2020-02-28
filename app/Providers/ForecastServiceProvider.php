@@ -29,7 +29,9 @@ class ForecastServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->app->bind(ForecastService::class, function ($app) {
-            return new ForecastService();
+            $forecastProvidersConfig = config('forecast_providers.providers');
+
+            return new ForecastService($forecastProvidersConfig);
         });
     }
 }

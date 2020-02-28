@@ -10,18 +10,15 @@ use DateTime;
 
 /**
  * Business logic of getting all forecast from different providers together
- * @todo implement dependency injection
  */
 class ForecastService
 {
     /** @var ForecastProviderInterface[] */
     private $providers;
 
-    public function __construct()
+    public function __construct(array $forecastProvidersConfig)
     {
-//        dd(config('forecast_providers.providers.bbc'));
-
-        foreach (config('forecast_providers.providers') as $providerName => $providerConfig) {
+        foreach ($forecastProvidersConfig as $providerName => $providerConfig) {
             if ($providerConfig['enabled'] == true) {
                 $this->providers[] = app($providerConfig['class']);
             }
@@ -45,5 +42,13 @@ class ForecastService
         }
 
         return new Forecast([], $town);
+    }
+
+    /**
+     * @return ForecastProviderInterface[]
+     */
+    public function getProviders(): array
+    {
+        return $this->providers;
     }
 }

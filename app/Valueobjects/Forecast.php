@@ -52,8 +52,11 @@ class Forecast
         return $this->createTs;
     }
 
-    public function __toString():string
+    public function toArray(): array
     {
-        return 'my awesome forecast';
+        return [
+            'town' => $this->town,
+            'created' => $this->createTs->format('Y-m-d H:i:s')
+        ];
     }
 }

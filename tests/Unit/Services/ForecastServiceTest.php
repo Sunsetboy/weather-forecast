@@ -12,7 +12,18 @@ class ForecastServiceTest extends TestCase
      */
     public function test_constructor()
     {
-        $forecastService = new ForecastService();
+        $forecastProvidersConfig = [
+            'provider1' => [
+                'enabled' => true,
+                'class' => \App\Repositories\IAmSterdamForecastProvider::class,
+            ],
+            'provider2' => [
+                'enabled' => false,
+                'class' => \App\Repositories\BBCForecastProvider::class
+            ],
+        ];
 
+        $forecastService = new ForecastService($forecastProvidersConfig);
+        $this->assertEquals(1, count($forecastService->getProviders()));
     }
 }
