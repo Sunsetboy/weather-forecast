@@ -11,6 +11,7 @@ trait ForecastDateChecker
      * Checks if a date is not in past or distant future
      * @param DateTime $date
      * @throws InvalidForecastDateException
+     * @todo extract limits to config
      */
     public function checkDate(DateTime $date): void
     {

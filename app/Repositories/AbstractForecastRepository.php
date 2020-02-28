@@ -1,39 +1,36 @@
 <?php
 
+
 namespace App\Repositories;
 
+
 use App\Enums\TempScaleEnum;
-use App\Exceptions\InvalidForecastDateException;
 use App\Exceptions\NegativeAbsoluteTemperatureException;
 use App\Valueobjects\Forecast;
 use App\Valueobjects\Temperature;
 use DateTime;
 
-class MockForecastRepository implements ForecastProviderInterface
+abstract class AbstractForecastRepository
 {
-    use ForecastDateChecker;
-
     /**
-     * Generates a fake forecast for testing purposes
+     * Generates a fake forecast with random data
      * @param string $town
      * @param DateTime $date
+     * @param $temperatureScale
      * @return Forecast
      * @throws NegativeAbsoluteTemperatureException
-     * @throws InvalidForecastDateException
      */
-    public function getForecast(string $town, $date): Forecast
+    protected function getFakeForecast(string $town, $date, $temperatureScale): Forecast
     {
-        $this->checkDate($date);
-
         $temperatures = [];
         $currentDateTime = $date->modify('this hour');
         $tomorrow = (clone $currentDateTime)->modify('+1 day')->setTime(0, 0, 0);
 
         while ($currentDateTime < $tomorrow) {
 
-            $randomTempValueInCelsius = mt_rand(10, 15);
+            $randomTempValue = mt_rand(10, 15);
 
-            $temperature = Temperature::createFromScale(TempScaleEnum::CELSIUS(), $randomTempValueInCelsius);
+            $temperature = Temperature::createFromScale($temperatureScale, $randomTempValue);
             $datetimeAsString = $currentDateTime->format('Y-m-d H:i:s');
             $temperatures[$datetimeAsString] = $temperature;
             $currentDateTime->modify('+1 hour');

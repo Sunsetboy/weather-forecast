@@ -2,12 +2,13 @@
 
 namespace Tests\Unit\Repositories;
 
-use App\Repositories\MockForecastRepository;
+use App\Enums\TempScaleEnum;
+use App\Repositories\BBCForecastProvider;
 use App\Valueobjects\Forecast;
 use DateTime;
 use Tests\TestCase;
 
-class MockForecastRepositoryTest extends TestCase
+class BBCForecastRepositoryTest extends TestCase
 {
 
     /**
@@ -16,9 +17,9 @@ class MockForecastRepositoryTest extends TestCase
      */
     public function test_get_forecast($forecastDate, $expectedHours)
     {
-        $mockForecastRepository = new MockForecastRepository();
+        $mockForecastRepository = new BBCForecastProvider('test.local', '122');
 
-        $forecast = $mockForecastRepository->getForecast('Rotterdam', $forecastDate);
+        $forecast = $mockForecastRepository->getForecast('Rotterdam', $forecastDate, TempScaleEnum::CELSIUS());
 
         $this->assertInstanceOf(Forecast::class, $forecast);
         $this->assertEquals($expectedHours, count($forecast->getTemperatures()));
