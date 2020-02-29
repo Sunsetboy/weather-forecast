@@ -47,4 +47,13 @@ class ForecastTest extends TestCase
         $this->get('/forecast/Amsterdam/' . $tomorrowDate)
             ->seeStatusCode(400);
     }
+
+    /**
+     * @test
+     */
+    public function try_get_forecast_with_unsupported_temperature_scale()
+    {
+        $this->get('/forecast/Amsterdam?scale=meters')
+            ->seeStatusCode(400);
+    }
 }

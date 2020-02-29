@@ -36,14 +36,15 @@ class ForecastController extends Controller
 
         try {
             $this->checkDate($date);
-        } catch (InvalidForecastDateException $exception) {
+            $scaleObject = new TempScaleEnum($scale);
+        } catch (\Exception $exception) {
             return response()->json([
-                'message' => $exception->getMessage()
+                'message' => 'supported temperature scales: celsius, fahrenheit'
             ], 400);
         }
 
-        $forecast = $this->forecastService->getForecast($townName, $date, $scale);
+        $forecast = $this->forecastService->getForecast($townName, $date, $scaleObject);
 
-        return response()->json($forecast->toArray($scale));
+        return response()->json($forecast->toArray($scaleObject));
     }
 }
