@@ -23,7 +23,7 @@ abstract class AbstractForecastRepository
     protected function getFakeForecast(string $town, $date, $temperatureScale): Forecast
     {
         $temperatures = [];
-        $currentDateTime = $date->modify('this hour');
+        $currentDateTime = $date->setTime((int)$date->format('H'),0,0);
         $tomorrow = (clone $currentDateTime)->modify('+1 day')->setTime(0, 0, 0);
 
         while ($currentDateTime < $tomorrow) {

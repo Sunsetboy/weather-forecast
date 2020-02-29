@@ -32,6 +32,6 @@ class ForecastController extends Controller
 
         $forecast = $this->forecastService->getForecast($townName, $date, $scale);
 
-        return response()->json($forecast->toArray());
+        return response()->json($forecast->toArray($scale));
     }
 }

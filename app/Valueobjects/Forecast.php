@@ -2,6 +2,7 @@
 
 namespace App\Valueobjects;
 
+use App\Enums\TempScaleEnum;
 use DateTime;
 
 /**
@@ -52,11 +53,21 @@ class Forecast
         return $this->createTs;
     }
 
-    public function toArray(): array
+    /**
+     * @param TempScaleEnum $scale
+     * @return array
+     */
+    public function toArray(TempScaleEnum $scale): array
     {
+        $temperatures = [];
+        foreach ($this->temperatures as $datetime => $temperature) {
+            $temperatures[$datetime] = $temperature->getValue($scale);
+        }
+
         return [
             'town' => $this->town,
-            'created' => $this->createTs->format('Y-m-d H:i:s')
+            'created' => $this->createTs->format('Y-m-d H:i:s'),
+            'temperatures' => $temperatures,
         ];
     }
 }

@@ -4,6 +4,7 @@
 namespace App\Services;
 
 use App\Enums\TempScaleEnum;
+use App\Helpers\AverageTemperatureHelper;
 use App\Repositories\ForecastProviderInterface;
 use App\Valueobjects\Forecast;
 use DateTime;
@@ -36,12 +37,33 @@ class ForecastService
     public function getForecast($town, $date, $temperatureScale): Forecast
     {
         $forecasts = [];
+        $averageTemperatures = [];
+        $temperaturesByTime = [];
+        $currentTime = (clone $date)->setTime((int)$date->format('H'),0,0);
+        $nextDayBegin = (clone $date)->modify('next day midnight');
 
         foreach ($this->providers as $forecastProvider) {
-            $forecasts[] = $forecastProvider->getForecast($town, $date, $temperatureScale);
+            $forecastDate = clone $date;
+            $forecasts[] = $forecastProvider->getForecast($town, $forecastDate, $temperatureScale);
         }
 
-        return new Forecast([], $town);
+        while ($currentTime < $nextDayBegin) {
+            $currentTimeString = $currentTime->format('Y-m-d H:i:s');
+            $temperaturesByTime[$currentTimeString] = [];
+
+            foreach ($forecasts as $forecast) {
+                /** @var Forecast $forecast */
+                $forecastTemperatures = $forecast->getTemperatures();
+                $temperaturesByTime[$currentTimeString][] = $forecastTemperatures[$currentTimeString];
+            }
+
+            // calculate an average temperature for each hour
+            $averageTemperatures[$currentTimeString] = AverageTemperatureHelper::getAverageTemperature($temperaturesByTime[$currentTimeString]);
+
+            $currentTime->modify('+1 hour');
+        }
+
+        return new Forecast($averageTemperatures, $town);
     }
 
     /**
@@ -50,5 +72,16 @@ class ForecastService
     public function getProviders(): array
     {
         return $this->providers;
+    }
+
+    /**
+     * @param ForecastProviderInterface[] $providers
+     * @return ForecastService
+     */
+    public function setProviders(array $providers): ForecastService
+    {
+        $this->providers = $providers;
+
+        return $this;
     }
 }
