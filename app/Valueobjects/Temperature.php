@@ -42,6 +42,7 @@ class Temperature
      * Returns a value in a specified scale
      * @param TempScaleEnum $scale
      * @return float
+     * @throws \Exception
      */
     public function getValue(TempScaleEnum $scale): float
     {
