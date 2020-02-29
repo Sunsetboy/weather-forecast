@@ -8,6 +8,7 @@ use App\Helpers\AverageTemperatureHelper;
 use App\Repositories\ForecastProviderInterface;
 use App\Valueobjects\Forecast;
 use DateTime;
+use Illuminate\Support\Facades\Cache;
 
 /**
  * Business logic of getting all forecast from different providers together
@@ -36,10 +37,17 @@ class ForecastService
      */
     public function getForecast($town, $date, $temperatureScale): Forecast
     {
+        $cacheKey = $town . $date->format('Y-m-d');
+        $forecast = Cache::get($cacheKey);
+
+        if ($forecast instanceof Forecast) {
+            return $forecast;
+        }
+
         $forecasts = [];
         $averageTemperatures = [];
         $temperaturesByTime = [];
-        $currentTime = (clone $date)->setTime((int)$date->format('H'),0,0);
+        $currentTime = (clone $date)->setTime((int)$date->format('H'), 0, 0);
         $nextDayBegin = (clone $date)->modify('next day midnight');
 
         foreach ($this->providers as $forecastProvider) {
@@ -63,7 +71,10 @@ class ForecastService
             $currentTime->modify('+1 hour');
         }
 
-        return new Forecast($averageTemperatures, $town);
+        $forecast = new Forecast($averageTemperatures, $town);
+        Cache::put($cacheKey, $forecast, config('app.forecast_cache_ttl'));
+
+        return $forecast;
     }
 
     /**

@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Enums\TempScaleEnum;
+use App\Exceptions\InvalidForecastDateException;
+use App\Repositories\ForecastDateChecker;
 use App\Services\ForecastService;
 use DateTime;
 use Illuminate\Http\JsonResponse;
@@ -10,6 +12,8 @@ use Illuminate\Http\Request;
 
 class ForecastController extends Controller
 {
+    use ForecastDateChecker;
+
     /** @var ForecastService */
     private $forecastService;
 
@@ -29,6 +33,14 @@ class ForecastController extends Controller
     {
         $scale = $request->get('scale', TempScaleEnum::CELSIUS());
         $date = $date ? (new DateTime($date)) : (new DateTime());
+
+        try {
+            $this->checkDate($date);
+        } catch (InvalidForecastDateException $exception) {
+            return response()->json([
+                'message' => $exception->getMessage()
+            ], 400);
+        }
 
         $forecast = $this->forecastService->getForecast($townName, $date, $scale);
 
