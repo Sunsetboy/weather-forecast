@@ -1,7 +1,9 @@
 language: php
 php:
   - 7.2
-
+env:
+  global:
+    - CC_TEST_REPORTER_ID=c785034156c6d2f501c75ea527763b6252b72b35a215ab6948509dcda0c49467
 before_script:
   - phpenv config-rm xdebug.ini
   - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
