@@ -56,12 +56,13 @@ class Forecast
     /**
      * @param TempScaleEnum $scale
      * @return array
+     * @throws \Exception
      */
     public function toArray(TempScaleEnum $scale): array
     {
         $temperatures = [];
         foreach ($this->temperatures as $datetime => $temperature) {
-            $temperatures[$datetime] = $temperature->getValue($scale);
+            $temperatures[$datetime] = (int)round($temperature->getValue($scale));
         }
 
         return [

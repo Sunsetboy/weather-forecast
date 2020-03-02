@@ -74,15 +74,15 @@ class ForecastServiceTest extends TestCase
         $this->assertEquals('Amsterdam', $forecastAsArrayInCelsius['town']);
 
         $expectedTemperaturesCelsius = [
-            "2020-03-01 21:00:00" => 11,
-            "2020-03-01 22:00:00" => 9,
-            "2020-03-01 23:00:00" => 5,
+            $date->format('Y-m-d') . " 21:00:00" => 11,
+            $date->format('Y-m-d') . " 22:00:00" => 9,
+            $date->format('Y-m-d') . " 23:00:00" => 5,
         ];
 
         $expectedTemperaturesFahrenheit = [
-            "2020-03-01 21:00:00" => 51.8,
-            "2020-03-01 22:00:00" => 48.2,
-            "2020-03-01 23:00:00" => 41,
+            $date->format('Y-m-d') . " 21:00:00" => 52,
+            $date->format('Y-m-d') . " 22:00:00" => 48,
+            $date->format('Y-m-d') . " 23:00:00" => 41,
         ];
 
         $this->assertEquals($expectedTemperaturesCelsius, $forecastAsArrayInCelsius['temperatures']);

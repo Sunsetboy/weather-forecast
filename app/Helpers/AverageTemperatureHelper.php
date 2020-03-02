@@ -24,7 +24,7 @@ class AverageTemperatureHelper
             return $temperature->getValue($tempScale);
         }, $temperatures);
 
-        $averageValue = array_sum($valuesInCelsius) / sizeof($temperatures);
+        $averageValue = round(array_sum($valuesInCelsius) / sizeof($temperatures));
 
         return Temperature::createFromScale($tempScale, $averageValue);
     }
