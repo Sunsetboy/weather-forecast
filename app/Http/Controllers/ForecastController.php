@@ -36,6 +36,12 @@ class ForecastController extends Controller
 
         try {
             $this->checkDate($date);
+        } catch (InvalidForecastDateException $dateException) {
+            return response()->json([
+                'message' => $dateException->getMessage(),
+            ], 400);
+        }
+        try {
             $scaleObject = new TempScaleEnum($scale);
         } catch (\Exception $exception) {
             return response()->json([

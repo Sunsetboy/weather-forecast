@@ -13,6 +13,7 @@ Run ```composer install```\
 Copy the .env.example file to .env, set up configurations in .env file
 
 ## Usage
+Run ```php -S localhost:8000 -t public/``` to use built-in PHP web server
 
 To get a forecast for today make a request:\
 ```GET /forecast/Amsterdam```\
